@@ -1,0 +1,40 @@
+Create a database called "sales" with a table called "orders" that contains the following columns: order_id (int), customer_id (int), order_date (date), order_total (decimal).
+
+
+CREATE DATABASE sales;
+
+USE sales;
+
+CREATE TABLE orders (
+  order_id INT,
+  customer_id INT,
+  order_date DATE,
+  order_total DECIMAL(10,2)
+);
+
+USE sales;
+
+INSERT INTO orders (order_id, customer_id, order_date, order_total)
+VALUES
+  (001, 1390, '2023-07-08', 50.25),
+  (239, 1052, '2023-07-08', 75.50),
+  (356, 1876, '2023-07-07', 120.00),
+  (479, 1399, '2023-07-06', 95.75),
+  (561, 1645, '2023-07-05', 200.80);
+
+SELECT o.order_id, o.customer_id, o.order_date, o.order_total, c.customer_name
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id;
+
+SELECT MAX(order_total) AS max_order_total
+FROM orders;
+
+SELECT order_id, customer_id, order_date, order_total, customer_name,
+       RANK() OVER (ORDER BY order_total DESC) AS rank
+FROM orders
+JOIN customers ON orders.customer_id = customers.customer_id;
+
+
+SELECT order_id, customer_id, order_date, order_total
+FROM orders
+ORDER BY order_date DESC;
